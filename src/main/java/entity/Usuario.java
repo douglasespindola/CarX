@@ -8,7 +8,8 @@ import javax.persistence.*;
 @SuppressWarnings("serial")
 @NamedQueries({
         @NamedQuery(name = "Usuario.findByNomeSenha", query = "select u from usuario u where u.nome=:nome and u.senha=:senha"),
-        @NamedQuery(name = "Usuario.getAllUsuarios", query = "select u from usuario u where u.nome=:nome and u.senha=:senha")
+        @NamedQuery(name = "Usuario.getAllUsuarios", query = "select u from usuario u"),
+        @NamedQuery(name = "Usuario.getUsuario", query = "select u from usuario u where u.id=:id")
 })
 public class Usuario implements Serializable {
     @Id
@@ -20,6 +21,8 @@ public class Usuario implements Serializable {
     private Long cpf;
     @Column
     private String senha;
+    @Column
+    private String email;
 
     public Integer getId() {
         return id;
@@ -42,7 +45,15 @@ public class Usuario implements Serializable {
     public Long getCpf() {
         return cpf;
     }
-    public void setCpf(Long cpf) {
-        this.cpf = cpf;
+    public void setCpf(String cpf) {
+        this.cpf = Long.parseLong(cpf);
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

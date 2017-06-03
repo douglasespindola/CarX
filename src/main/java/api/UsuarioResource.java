@@ -17,16 +17,18 @@
 package api;
 
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
 import com.google.gson.Gson;
 
+import dto.MessageDto;
+import entity.Usuario;
 import service.UsuarioService;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 @Path("/usuario")
 public class UsuarioResource {
@@ -51,9 +53,75 @@ public class UsuarioResource {
 //	}
 
 	@GET
-	@Path("/list")
+	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON+";charset=utf-8")
 	public String getAllUsuarios() {
 		return new Gson().toJson(usuarioService.getAllUsuarios());
+	}
+
+	@PUT
+	@Path("/")
+	@Produces(MediaType.APPLICATION_JSON+";charset=utf-8")
+	public String updateUsuario(String jsonString) {
+		try {
+			Gson json = new Gson();
+			Usuario usuario = json.fromJson(jsonString, Usuario.class);
+			return json.toJson(usuarioService.update(usuario));
+		} catch (Exception e){
+			Gson json = new Gson();
+			MessageDto message = new MessageDto();
+			message.setMessage(e.getMessage()+e.getClass());
+			return json.toJson(message);
+		}
+	}
+
+	@POST
+	@Path("/")
+	@Produces(MediaType.APPLICATION_JSON+";charset=utf-8")
+	public String createUsuario(String jsonString) {
+		try {
+			Gson json = new Gson();
+			Usuario usuario = json.fromJson(jsonString, Usuario.class);
+			return json.toJson(usuarioService.create(usuario));
+		} catch (Exception e){
+			Gson json = new Gson();
+			MessageDto message = new MessageDto();
+			message.setMessage(e.getMessage()+e.getClass());
+			return json.toJson(message);
+		}
+	}
+
+	@DELETE
+	@Path("/{id}")
+	@Produces(MediaType.APPLICATION_JSON+";charset=utf-8")
+	public String removeUsuario(@PathParam("id") Integer id) {
+		try {
+			Gson json = new Gson();
+			usuarioService.remove(id);
+			MessageDto message = new MessageDto();
+			message.setMessage("Removido com sucesso");
+			return json.toJson(message);
+		} catch (Exception e){
+			Gson json = new Gson();
+			MessageDto message = new MessageDto();
+			message.setMessage(e.getMessage()+e.getClass());
+			return json.toJson(message);
+		}
+	}
+
+	@GET
+	@Path("/{id}")
+	@Produces(MediaType.APPLICATION_JSON+";charset=utf-8")
+	public String getUsuario(@PathParam("id") Integer id) {
+		try {
+			Gson json = new Gson();
+			Usuario usuario = usuarioService.getUsuario(id);
+			return json.toJson(usuario);
+		} catch (Exception e){
+			Gson json = new Gson();
+			MessageDto message = new MessageDto();
+			message.setMessage(e.getMessage()+e.getClass());
+			return json.toJson(message);
+		}
 	}
 }
