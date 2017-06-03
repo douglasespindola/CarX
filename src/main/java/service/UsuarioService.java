@@ -39,12 +39,12 @@ public class UsuarioService {
     }
 
     @Transactional
-    public Usuario update(Usuario usuario) { //throws TransactionRequiredException {
+    public Usuario update(Usuario usuario) {
         return entityManager.merge(usuario);
     }
 
     @Transactional
-    public Usuario create(Usuario usuario) {//throws PersistenceException {
+    public Usuario create(Usuario usuario) {
         entityManager.persist(usuario);
         return usuario;
     }
