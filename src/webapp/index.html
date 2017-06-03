@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Consulta de CEP</title>
+<script src="cep.js"></script>
+</head>
+<body>
+	<form>
+		<label>Informe o prefixo do CEP</label>
+		<input type="text" required id="cep">
+		<input type="button" value="Consultar" onclick="getCidadeByCep()">
+		<p id="cidade"></p>
+		<p id="estado"></p>
+		<a href="cadastro.html">Cadastrar</a>
+	</form>
+</body>
+</html>

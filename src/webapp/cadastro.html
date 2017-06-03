@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Cadastro de CEP</title>
+<script src="cep.js"></script>
+</head>
+<body>
+	<form>
+		<label>Informe o prefixo do CEP</label> 
+		<input type="text" required id="cep"> 
+		<label>Informe a cidade</label> 
+		<input type="text" required id="cidade"> 
+		<label>Selecione o estado</label> 
+		<select id="estado">
+			<option value="SC">Santa Catarina</option>
+			<option value="PR">Paraná</option>
+		</select> 
+		<input type="button" value="Cadastrar" onclick="cadastrarCep()">
+		<p id="mensagem"></p>
+	</form>
+</body>
+</html>
