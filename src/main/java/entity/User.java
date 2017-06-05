@@ -7,7 +7,7 @@ import javax.persistence.*;
 @Entity(name="user")
 @SuppressWarnings("serial")
 @NamedQueries({
-        @NamedQuery(name = "User.findByNomeSenha", query = "select u from user u where u.name=:nome and u.password=:senha"),
+        @NamedQuery(name = "User.getLogin", query = "select u from user u where u.name=:nome and u.password=:senha"),
         @NamedQuery(name = "User.getAllUsers", query = "select u from user u"),
         @NamedQuery(name = "User.getUser", query = "select u from user u where u.id=:id")
 })
