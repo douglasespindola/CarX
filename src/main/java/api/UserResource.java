@@ -24,34 +24,30 @@ import javax.ws.rs.core.Response;
 import com.google.gson.Gson;
 
 import dto.MessageDto;
-import entity.Usuario;
-import service.UsuarioService;
+import entity.User;
+import service.UserService;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.List;
-
-@Path("/usuario")
-public class UsuarioResource {
+@Path("/user")
+public class UserResource {
 	
 	@Inject
-	private UsuarioService usuarioService;
+	private UserService userService;
 
 	@GET
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON+";charset=utf-8")
-	public String getAllUsuarios() {
-		return new Gson().toJson(usuarioService.getAllUsuarios());
+	public String getAllUsers() {
+		return new Gson().toJson(userService.getAllUsers());
 	}
 
 	@PUT
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON+";charset=utf-8")
-	public Response updateUsuario(String jsonString) {
+	public Response updateUser(String jsonString) {
 		try {
 			Gson json = new Gson();
-			Usuario usuario = json.fromJson(jsonString, Usuario.class);
-			return Response.status(200).type(MediaType.APPLICATION_JSON).entity(usuarioService.update(usuario)).build();
+			User user = json.fromJson(jsonString, User.class);
+			return Response.status(200).type(MediaType.APPLICATION_JSON).entity(userService.update(user)).build();
 		} catch (Exception e){
 			Gson json = new Gson();
 			MessageDto message = new MessageDto();
@@ -63,11 +59,11 @@ public class UsuarioResource {
 	@POST
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON+";charset=utf-8")
-	public Response createUsuario(String jsonString) {
+	public Response createUser(String jsonString) {
 		try {
 			Gson json = new Gson();
-			Usuario usuario = json.fromJson(jsonString, Usuario.class);
-			return Response.status(200).type(MediaType.APPLICATION_JSON).entity(json.toJson(usuarioService.create(usuario))).build();
+			User user = json.fromJson(jsonString, User.class);
+			return Response.status(200).type(MediaType.APPLICATION_JSON).entity(json.toJson(userService.create(user))).build();
 		} catch (Exception e){
 			Gson json = new Gson();
 			MessageDto message = new MessageDto();
@@ -79,10 +75,10 @@ public class UsuarioResource {
 	@DELETE
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON+";charset=utf-8")
-	public Response removeUsuario(@PathParam("id") Integer id) {
+	public Response removeUser(@PathParam("id") Integer id) {
 		try {
 			Gson json = new Gson();
-			usuarioService.remove(id);
+			userService.remove(id);
 			MessageDto message = new MessageDto();
 			message.setMessage("Removido com sucesso");
 			return Response.status(200).type(MediaType.APPLICATION_JSON).entity(json.toJson(message)).build();
@@ -97,16 +93,17 @@ public class UsuarioResource {
 	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON+";charset=utf-8")
-	public Response getUsuario(@PathParam("id") Integer id) {
+	public Response getUser(@PathParam("id") Integer id) {
 		try {
 			Gson json = new Gson();
-			Usuario usuario = usuarioService.getUsuario(id);
-			return Response.status(200).type(MediaType.APPLICATION_JSON).entity(json.toJson(usuario)).build();
+			User user = userService.getUser(id);
+			return Response.status(200).type(MediaType.APPLICATION_JSON).entity(json.toJson(user)).build();
 		} catch (Exception e){
 			Gson json = new Gson();
 			MessageDto message = new MessageDto();
 			message.setMessage(e.getMessage()+e.getClass());
 			return Response.status(400).type(MediaType.APPLICATION_JSON).entity(message).build();
 		}
+		
 	}
 }
