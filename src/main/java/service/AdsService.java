@@ -1,6 +1,6 @@
 package service;
 
-import entity.Anuncio;
+import entity.Ads;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
@@ -13,44 +13,44 @@ import java.util.List;
 
 @Named
 @RequestScoped
-public class AnuncioService {
+public class AdsService {
 
     @PersistenceContext(name = "pi2017")
     private EntityManager entityManager;
 
-    public List<Anuncio> getAllAnuncios() {
+    public List<Ads> getAllAds() {
         try {
-            Query query = entityManager.createNamedQuery("Anuncio.getAllAnuncios");
-            return (List<Anuncio>) query.getResultList();
+            Query query = entityManager.createNamedQuery("Ads.getAllAds");
+            return (List<Ads>) query.getResultList();
         } catch (Exception e) {
             return new ArrayList<>();
         }
     }
 
-    public Anuncio getAnuncio() {
+    public Ads getAds() {
         try {
-            Query query = entityManager.createNamedQuery("Anuncio.getAnuncio");
-            return (Anuncio) query.getSingleResult();
+            Query query = entityManager.createNamedQuery("Ads.getAds");
+            return (Ads) query.getSingleResult();
         } catch (Exception e) {
             return null;
         }
     }
 
     @Transactional
-    public Anuncio update(Anuncio anuncio) {
-        return entityManager.merge(anuncio);
+    public Ads update(Ads ads) {
+        return entityManager.merge(ads);
     }
 
     @Transactional
-    public Anuncio create(Anuncio anuncio) {
-        entityManager.persist(anuncio);
-        return anuncio;
+    public Ads create(Ads ads) {
+        entityManager.persist(ads);
+        return ads;
     }
 
     @Transactional
     public void remove(Integer id) {
-        Anuncio anuncio = entityManager.find(Anuncio.class, id);
-        entityManager.remove(anuncio);
+        Ads ads = entityManager.find(Ads.class, id);
+        entityManager.remove(ads);
 
     }
 }
