@@ -6,9 +6,6 @@ import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
 
-import dto.CidadeDTO;
-import dto.EstadoDTO;
-
 @SuppressWarnings("serial")
 @SessionScoped
 public class CidadeDao implements Serializable {
