@@ -14,39 +14,27 @@ public class Ads implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column
+    @Column(name="title_ads")
     private String titleAds;
     @Column
     private Double value;
-    @Column
-    private String marcaKey;
+    @Column(name="branch_key")
+    private String branchKey;
     @Column
     private Integer year;
-    @Column
-    private String brancWords;
+    @Column(name="key_words")
+    private String keyWords;
 
-    public void setValue(Double value) {
-        this.value = value;
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private User user;
+
+    public User getUser() {
+        return user;
     }
 
-    public Double getValue() {
-        return value;
-    }
-
-    public Integer getYear() {
-        return year;
-    }
-
-    public void setYear(Integer year) {
-        this.year = year;
-    }
-
-    public String getBrancWords() {
-        return brancWords;
-    }
-
-    public void setBrancWords(String brancWords) {
-        this.brancWords = brancWords;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Integer getId() {
@@ -65,11 +53,35 @@ public class Ads implements Serializable {
         this.titleAds = titleAds;
     }
 
-    public String getMarcaKey() {
-        return marcaKey;
+    public Double getValue() {
+        return value;
     }
 
-    public void setMarcaKey(String marcaKey) {
-        this.marcaKey = marcaKey;
+    public void setValue(Double value) {
+        this.value = value;
+    }
+
+    public String getBranchKey() {
+        return branchKey;
+    }
+
+    public void setBranchKey(String branchKey) {
+        this.branchKey = branchKey;
+    }
+
+    public Integer getYear() {
+        return year;
+    }
+
+    public void setYear(Integer year) {
+        this.year = year;
+    }
+
+    public String getKeyWords() {
+        return keyWords;
+    }
+
+    public void setKeyWords(String keyWords) {
+        this.keyWords = keyWords;
     }
 }
