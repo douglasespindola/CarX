@@ -1,15 +1,22 @@
 package entity;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlTransient;
 
 @Entity(name="user")
 @SuppressWarnings("serial")
 @NamedQueries({
-        @NamedQuery(name = "User.getLogin", query = "select u from user u where u.name=:nome and u.password=:senha"),
+        @NamedQuery(name = "User.getLogin", query = "select u from user u where u.email=:email and u.password=:password"),
         @NamedQuery(name = "User.getAllUsers", query = "select u from user u"),
-        @NamedQuery(name = "User.getUser", query = "select u from user u where u.id=:id")
+        @NamedQuery(name = "User.getUser", query = "select u from user u where u.id=:id"),
+        @NamedQuery(name = "User.checkUserNamedAvailable", query = "select u from user u where u.email=:email")
 })
 public class User implements Serializable {
     @Id
@@ -23,6 +30,20 @@ public class User implements Serializable {
     private String password;
     @Column
     private String email;
+    @Column
+    private String token;
+//    @XmlTransient
+//    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE}, mappedBy = "user")
+//    private List<Ads> ads;
+
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public Integer getId() {
         return id;
@@ -63,4 +84,13 @@ public class User implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
+
+//    //@XmlTransient
+//    public List<Ads> getAds() {
+//        return ads;
+//    }
+//
+//    public void setAds(List<Ads> ads) {
+//        this.ads = ads;
+//    }
 }
