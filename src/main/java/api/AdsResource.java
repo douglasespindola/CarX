@@ -73,21 +73,21 @@ public class AdsResource{
             return Response.status(400).type(MediaType.APPLICATION_JSON).entity(message).build();
         }
     }
-
-    @GET
-    @Path("/{id}")
-    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    public Response getAds(@PathParam("id") Integer id) {
-        try {
-            Gson json = new Gson();
-            Ads ads = adsService.getAds(id);
-            return Response.status(200).type(MediaType.APPLICATION_JSON).entity(json.toJson(ads)).build();
-        } catch (Exception e) {
-            Gson json = new Gson();
-            MessageDto message = new MessageDto();
-            message.setMessage(e.getMessage() + e.getClass());
-            return Response.status(400).type(MediaType.APPLICATION_JSON).entity(message).build();
-        }
-    }
+// TODO: resolver
+//    @GET
+//    @Path("/{id}")
+//    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+//    public Response getAds(@PathParam("id") Integer id) {
+//        try {
+//            Gson json = new Gson();
+//            Ads ads = adsService.getAds(id);
+//            return Response.status(200).type(MediaType.APPLICATION_JSON).entity(json.toJson(ads)).build();
+//        } catch (Exception e) {
+//            Gson json = new Gson();
+//            MessageDto message = new MessageDto();
+//            message.setMessage(e.getMessage() + e.getClass());
+//            return Response.status(400).type(MediaType.APPLICATION_JSON).entity(message).build();
+//        }
+//    }
 }
 
