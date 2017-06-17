@@ -2,7 +2,7 @@ package api;
 
 
 import com.google.gson.Gson;
-import com.sun.xml.internal.bind.v2.TODO;
+import dto.AdsDto;
 import dto.MessageDto;
 import service.AdsService;
 import entity.Ads;
@@ -23,7 +23,8 @@ public class AdsResource {
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     public Response getAllAds() {
         try {
-            return Response.status(200).type(MediaType.APPLICATION_JSON).entity(adsService.getAllAds()).build();
+            Gson json = new Gson();
+            return Response.status(200).type(MediaType.APPLICATION_JSON).entity(json.toJson(adsService.getAllAds())).build();
         } catch (Exception e) {
             //Gson json = new Gson();
             MessageDto message = new MessageDto();
@@ -71,6 +72,7 @@ public class AdsResource {
         try {
             Gson json = new Gson();
             adsService.remove(id);
+
             MessageDto message = new MessageDto();
             message.setMessage("Removido com sucesso");
             return Response.status(200).type(MediaType.APPLICATION_JSON).entity(json.toJson(message)).build();
@@ -79,23 +81,27 @@ public class AdsResource {
             MessageDto message = new MessageDto();
             message.setMessage(e.getMessage() + e.getClass());
             return Response.status(400).type(MediaType.APPLICATION_JSON).entity(message).build();
+
         }
     }
-// TODO: resolver
-//    @GET
-//    @Path("/{id}")
-//    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-//    public Response getAds(@PathParam("id") Integer id) {
-//        try {
-//            Gson json = new Gson();
-//            Ads ads = adsService.getAds(id);
-//            return Response.status(200).type(MediaType.APPLICATION_JSON).entity(json.toJson(ads)).build();
-//        } catch (Exception e) {
-//            Gson json = new Gson();
-//            MessageDto message = new MessageDto();
-//            message.setMessage(e.getMessage() + e.getClass());
-//            return Response.status(400).type(MediaType.APPLICATION_JSON).entity(message).build();
-//        }
-//    }
+
+    @GET
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    public Response getAds(@PathParam("id") Integer id) {
+        try {
+            Gson json = new Gson();
+            AdsDto ads = adsService.getAds(id);
+            if (ads == null) {
+                return Response.status(400).type(MediaType.APPLICATION_JSON).entity(json.toJson(ads)).build();
+            }
+            return Response.status(200).type(MediaType.APPLICATION_JSON).entity(json.toJson(ads)).build();
+        } catch (Exception e) {
+            Gson json = new Gson();
+            MessageDto message = new MessageDto();
+            message.setMessage(e.getMessage() + e.getClass());
+            return Response.status(400).type(MediaType.APPLICATION_JSON).entity(message).build();
+        }
+    }
 }
 
