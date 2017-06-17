@@ -1,8 +1,10 @@
 package service;
 
-import dto.AdsDTO;
+import dto.AdsDto;
+import dto.ImageAdsDto;
 import dto.UserDto;
 import entity.Ads;
+import entity.ImageAds;
 import entity.User;
 
 import javax.enterprise.context.RequestScoped;
@@ -25,25 +27,22 @@ public class AdsService {
     @Inject
     private UserService userService;
 
+    /***
+     * @desc Sou totalmente contra isso, mas é o que tem pra hoje
+     * @return
+     */
     @Transactional
-    public List<AdsDTO> getAllAds() {
+    public List<AdsDto> getAllAds() {
         try {
             Query query = entityManager.createNamedQuery("Ads.getAllAds");
             List<Ads> ads = query.getResultList();
 
-            List adsDto = new ArrayList<AdsDTO>();
+            List adsDto = new ArrayList<AdsDto>();
 
             for (Ads a : ads) {
-                AdsDTO adsDtoInsert = new AdsDTO();
-
+                AdsDto adsDtoInsert = new AdsDto();
                 adsDtoInsert.setValues((Ads) a);
-                if (a.getUser() != null) {
-                    UserDto userDtoInsert = new UserDto();
-                    userDtoInsert.setEmail(a.getUser().getEmail());
-                    userDtoInsert.setName(a.getUser().getName());
-                    adsDtoInsert.setUser(userDtoInsert);
-                }
-                adsDto.add(adsDtoInsert);
+                adsDto.add(this.adsDtoInsert(a, adsDtoInsert));
             }
             return adsDto;
         } catch (Exception e) {
@@ -51,33 +50,60 @@ public class AdsService {
         }
     }
 
-    public Ads getAds() {
+    public AdsDto adsDtoInsert(Ads ads, AdsDto adsDtoInsert) {
+
+        if (ads.getUser() != null) {
+            UserDto userDtoInsert = new UserDto();
+            userDtoInsert.setEmail(ads.getUser().getEmail());
+            userDtoInsert.setName(ads.getUser().getName());
+            adsDtoInsert.setUser(userDtoInsert);
+        }
+
+        if (ads.getImageAds() != null) {
+            List imagesDto = new ArrayList<ImageAdsDto>();
+
+            for (ImageAds ids : ads.getImageAds()) {
+                ImageAdsDto imagesDtoInsert = new ImageAdsDto();
+                imagesDtoInsert.setValues(ids);
+                System.out.println(imagesDto);
+                imagesDto.add(imagesDtoInsert);
+            }
+            adsDtoInsert.setImageAds(imagesDto);
+        }
+        return adsDtoInsert;
+    }
+
+    public AdsDto getAds(Integer id) {
         try {
             Query query = entityManager.createNamedQuery("Ads.getAds");
-            return (Ads) query.getSingleResult();
+            query.setParameter("id", id);
+            Ads ads = (Ads) query.getSingleResult();
+            AdsDto adsDtoInsert = new AdsDto();
+            adsDtoInsert.setValues(ads);
+            return this.adsDtoInsert(ads, adsDtoInsert);
         } catch (Exception e) {
             return null;
         }
     }
 
     @Transactional
-    public AdsDTO update(Ads ads) {
+    public AdsDto update(Ads ads) {
         User user = userService.getUser(ads.getUserId());
         ads.setUser(user);
         entityManager.merge(ads);
-        AdsDTO adsDTO = new AdsDTO();
-        adsDTO.setValues(ads);
-        return adsDTO;
+        AdsDto adsDto = new AdsDto();
+        adsDto.setValues(ads);
+        return adsDto;
     }
 
     @Transactional
-    public AdsDTO create(Ads ads) {
+    public AdsDto create(Ads ads) {
         User user = userService.getUser(ads.getUserId());
         ads.setUser(user);
         entityManager.persist(ads);
-        AdsDTO adsDTO = new AdsDTO();
-        adsDTO.setValues(ads);
-        return adsDTO;
+        AdsDto adsDto = new AdsDto();
+        adsDto.setValues(ads);
+        return adsDto;
     }
 
     @Transactional
