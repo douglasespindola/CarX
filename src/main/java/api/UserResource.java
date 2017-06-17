@@ -27,8 +27,6 @@ import dto.MessageDto;
 import entity.User;
 import service.UserService;
 
-import java.util.List;
-
 @Path("/user")
 public class UserResource {
 
@@ -48,13 +46,6 @@ public class UserResource {
             return Response.status(400).type(MediaType.APPLICATION_JSON).entity(message).build();
         }
     }
-
-//    @GET
-//    @Path("/")
-//    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-//    public List<User> getAllUsers2() {
-//        return userService.getAllUsers();
-//    }
 
 
     @PUT
