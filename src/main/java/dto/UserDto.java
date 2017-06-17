@@ -1,6 +1,7 @@
 package dto;
 
 import entity.Ads;
+import entity.User;
 
 import java.util.List;
 
@@ -20,6 +21,11 @@ public class UserDto {
 
     private List<Ads> ads;
 
+    public void setValues(User user){
+        this.name = user.getName();
+        this.email = user.getEmail();
+        this.id = user.getId();
+    }
 
     public Integer getId() {
         return id;
