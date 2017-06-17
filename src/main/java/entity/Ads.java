@@ -27,10 +27,23 @@ public class Ads implements Serializable {
     @Column(name = "key_words")
     private String keyWords;
 
+    @Transient
+    private Integer user_id;
+
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST})
     @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name = "user_id")
-    private User user = new User();
+    private User user;
+
+    @Transient
+    public Integer getUserId() {
+        return user_id;
+    }
+
+    @Transient
+    public void setUserId(Integer user_id) {
+        this.user_id = user_id;
+    }
 
     public User getUser() {
         return user;
