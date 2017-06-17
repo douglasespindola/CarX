@@ -6,6 +6,7 @@ import entity.Ads;
 import entity.User;
 
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -20,6 +21,10 @@ public class AdsService {
 
     @PersistenceContext(name = "pi2017")
     private EntityManager entityManager;
+
+    @Inject
+    private UserService userService;
+
     @Transactional
     public List<AdsDTO> getAllAds() {
         try {
@@ -30,9 +35,9 @@ public class AdsService {
 
             for (Ads a : ads) {
                 AdsDTO adsDtoInsert = new AdsDTO();
+
                 adsDtoInsert.setValues((Ads) a);
                 if (a.getUser() != null) {
-                    System.out.println(a.getUser().getId());
                     UserDto userDtoInsert = new UserDto();
                     userDtoInsert.setEmail(a.getUser().getEmail());
                     userDtoInsert.setName(a.getUser().getName());
@@ -56,20 +61,28 @@ public class AdsService {
     }
 
     @Transactional
-    public Ads update(Ads ads) {
-        return entityManager.merge(ads);
+    public AdsDTO update(Ads ads) {
+        User user = userService.getUser(ads.getUserId());
+        ads.setUser(user);
+        entityManager.merge(ads);
+        AdsDTO adsDTO = new AdsDTO();
+        adsDTO.setValues(ads);
+        return adsDTO;
     }
 
     @Transactional
-    public Ads create(Ads ads) {
+    public AdsDTO create(Ads ads) {
+        User user = userService.getUser(ads.getUserId());
+        ads.setUser(user);
         entityManager.persist(ads);
-        return ads;
+        AdsDTO adsDTO = new AdsDTO();
+        adsDTO.setValues(ads);
+        return adsDTO;
     }
 
     @Transactional
     public void remove(Integer id) {
         Ads ads = entityManager.find(Ads.class, id);
         entityManager.remove(ads);
-
     }
 }
