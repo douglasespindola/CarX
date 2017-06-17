@@ -5,11 +5,12 @@ import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity(name = "ads")
 @NamedQueries({
-    @NamedQuery(name = "Ads.getAllAds", query = "select a from ads a"),
-    @NamedQuery(name = "Ads.getAds", query = "select a from ads a where a.id=:id")
+        @NamedQuery(name = "Ads.getAllAds", query = "select a from ads a"),
+        @NamedQuery(name = "Ads.getAds", query = "select a from ads a where a.id=:id")
 })
 
 public class Ads implements Serializable {
@@ -27,7 +28,6 @@ public class Ads implements Serializable {
     @Column(name = "key_words")
     private String keyWords;
     //TODO: criar campos de created_at e updated_at, lembrar de reproduzir os campos no DTO
-
     @Transient
     private Integer user_id;
 
@@ -35,6 +35,10 @@ public class Ads implements Serializable {
     @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name = "user_id")
     private User user;
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE}, mappedBy = "ads")
+    @NotFound(action = NotFoundAction.IGNORE)
+    private List<ImageAds> imageAds;
 
     @Transient
     public Integer getUserId() {
@@ -44,6 +48,16 @@ public class Ads implements Serializable {
     @Transient
     public void setUserId(Integer user_id) {
         this.user_id = user_id;
+    }
+
+
+
+    public List<ImageAds> getImageAds() {
+        return imageAds;
+    }
+
+    public void setImageAds(List<ImageAds> imageAds) {
+        this.imageAds = imageAds;
     }
 
     public User getUser() {
