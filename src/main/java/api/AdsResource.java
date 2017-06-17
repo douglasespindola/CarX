@@ -13,7 +13,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Path("/ads")
-public class AdsResource{
+public class AdsResource {
     //public class AdsResource implements IResource <ads>
     @Inject
     private AdsService adsService;
@@ -21,7 +21,14 @@ public class AdsResource{
     @GET
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    public String getAllAds() { return new Gson().toJson(adsService.getAllAds());
+    public Response getAllAds() {
+        try {
+            return Response.status(200).type(MediaType.APPLICATION_JSON).entity(adsService.getAllAds()).build();
+        } catch (Exception e) {
+            MessageDto message = new MessageDto();
+            message.setMessage(e.getMessage() + e.getClass());
+            return Response.status(400).type(MediaType.APPLICATION_JSON).entity(message).build();
+        }
     }
 
     @PUT
