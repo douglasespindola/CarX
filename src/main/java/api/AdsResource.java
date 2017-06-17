@@ -25,6 +25,7 @@ public class AdsResource {
         try {
             return Response.status(200).type(MediaType.APPLICATION_JSON).entity(adsService.getAllAds()).build();
         } catch (Exception e) {
+            //Gson json = new Gson();
             MessageDto message = new MessageDto();
             message.setMessage(e.getMessage() + e.getClass());
             return Response.status(400).type(MediaType.APPLICATION_JSON).entity(message).build();
@@ -38,7 +39,7 @@ public class AdsResource {
         try {
             Gson json = new Gson();
             Ads ads = json.fromJson(jsonString, Ads.class);
-            return Response.status(200).type(MediaType.APPLICATION_JSON).entity(adsService.update(ads)).build();
+            return Response.status(200).type(MediaType.APPLICATION_JSON).entity(json.toJson(adsService.update(ads))).build();
         } catch (Exception e) {
             Gson json = new Gson();
             MessageDto message = new MessageDto();
