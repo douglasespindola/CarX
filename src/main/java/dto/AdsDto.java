@@ -1,15 +1,14 @@
 package dto;
 
 import entity.Ads;
+import entity.ImageAds;
 import entity.User;
 import service.UserService;
 
 import javax.inject.Inject;
+import java.util.List;
 
-/**
- * Created by felipemoura on 17/06/2017.
- */
-public class AdsDTO {
+public class AdsDto {
 
     private Integer id;
 
@@ -25,6 +24,8 @@ public class AdsDTO {
 
     private UserDto user;
 
+    private List<ImageAdsDto> imageAds;
+
     private Integer user_id;
 
     public void setValues(Ads ads) {
@@ -34,7 +35,6 @@ public class AdsDTO {
         this.branchKey = ads.getBranchKey();
         this.year = ads.getYear();
         this.user_id = ads.getUserId();
-        //this.user = ads.getUser();
     }
 
     public Integer getId() {
@@ -91,5 +91,13 @@ public class AdsDTO {
 
     public void setUser(UserDto user) {
         this.user = user;
+    }
+
+    public List<ImageAdsDto> getImageAds() {
+        return imageAds;
+    }
+
+    public void setImageAds(List<ImageAdsDto> imageAds) {
+        this.imageAds = imageAds;
     }
 }
