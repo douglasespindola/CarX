@@ -32,10 +32,9 @@ public class User implements Serializable {
     private String email;
     @Column
     private String token;
-//    @XmlTransient
+    //@XmlTransient
 //    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE}, mappedBy = "user")
-//    private List<Ads> ads;
-
+//    private List<Ads> ads = null;
 
     public String getToken() {
         return token;
@@ -85,7 +84,7 @@ public class User implements Serializable {
         this.password = password;
     }
 
-//    //@XmlTransient
+    //@XmlTransient
 //    public List<Ads> getAds() {
 //        return ads;
 //    }
