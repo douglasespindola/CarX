@@ -2,6 +2,9 @@ package dto;
 
 import entity.Ads;
 import entity.User;
+import service.UserService;
+
+import javax.inject.Inject;
 
 /**
  * Created by felipemoura on 17/06/2017.
@@ -22,6 +25,7 @@ public class AdsDTO {
 
     private UserDto user;
 
+    private Integer user_id;
 
     public void setValues(Ads ads) {
         this.id = ads.getId();
@@ -29,6 +33,7 @@ public class AdsDTO {
         this.value = ads.getValue();
         this.branchKey = ads.getBranchKey();
         this.year = ads.getYear();
+        this.user_id = ads.getUserId();
         //this.user = ads.getUser();
     }
 
