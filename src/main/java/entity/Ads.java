@@ -1,33 +1,36 @@
 package entity;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity(name = "ads")
 @NamedQueries({
-        @NamedQuery(name = "Ads.getAllAds", query = "select a from ads a"),
-        @NamedQuery(name = "Ads.getAds", query = "select a from ads a where a.id=:id")
+    @NamedQuery(name = "Ads.getAllAds", query = "select a from ads a"),
+    @NamedQuery(name = "Ads.getAds", query = "select a from ads a where a.id=:id")
 })
-
 
 public class Ads implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name="title_ads")
+    @Column(name = "title_ads")
     private String titleAds;
     @Column
     private Double value;
-    @Column(name="branch_key")
+    @Column(name = "branch_key")
     private String branchKey;
     @Column
     private Integer year;
-    @Column(name="key_words")
+    @Column(name = "key_words")
     private String keyWords;
 
-    @ManyToOne
-    @JoinColumn(name="user_id")
-    private User user;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST})
+    @NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(name = "user_id")
+    private User user = new User();
 
     public User getUser() {
         return user;
