@@ -26,6 +26,7 @@ public class Ads implements Serializable {
     private Integer year;
     @Column(name = "key_words")
     private String keyWords;
+    //TODO: criar campos de created_at e updated_at, lembrar de reproduzir os campos no DTO
 
     @Transient
     private Integer user_id;
