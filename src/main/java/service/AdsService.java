@@ -1,6 +1,9 @@
 package service;
 
+import dto.AdsDTO;
+import dto.UserDto;
 import entity.Ads;
+import entity.User;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
@@ -17,11 +20,27 @@ public class AdsService {
 
     @PersistenceContext(name = "pi2017")
     private EntityManager entityManager;
-
-    public List<Ads> getAllAds() {
+    @Transactional
+    public List<AdsDTO> getAllAds() {
         try {
             Query query = entityManager.createNamedQuery("Ads.getAllAds");
-            return (List<Ads>) query.getResultList();
+            List<Ads> ads = query.getResultList();
+
+            List adsDto = new ArrayList<AdsDTO>();
+
+            for (Ads a : ads) {
+                AdsDTO adsDtoInsert = new AdsDTO();
+                adsDtoInsert.setValues((Ads) a);
+                if (a.getUser() != null) {
+                    System.out.println(a.getUser().getId());
+                    UserDto userDtoInsert = new UserDto();
+                    userDtoInsert.setEmail(a.getUser().getEmail());
+                    userDtoInsert.setName(a.getUser().getName());
+                    adsDtoInsert.setUser(userDtoInsert);
+                }
+                adsDto.add(adsDtoInsert);
+            }
+            return adsDto;
         } catch (Exception e) {
             return new ArrayList<>();
         }
