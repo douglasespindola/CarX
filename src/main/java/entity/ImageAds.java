@@ -18,9 +18,9 @@ public class ImageAds {
     @Column
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE})
     @NotFound(action = NotFoundAction.IGNORE)
-    @JoinColumn(name = "ads_id")
+    @JoinColumn(name = "ads_id", nullable = false)
     private Ads ads;
 
     @Transient
