@@ -63,7 +63,6 @@ public class UploadHelper {
                 try {
                     MultivaluedMap<String, String> header = inputPart.getHeaders();
                     fileName = UploadHelper.getFileName(header);
-                    System.out.println(fileName);
                     String auxFileName = fileName.toString();
                     InputStream inputStream = inputPart.getBody(InputStream.class, null);
 
@@ -75,7 +74,6 @@ public class UploadHelper {
                     UploadHelper.writeFile(bytes, UPLOADED_FILE_PATH + fileName);
 
                     fileNames.add(auxFileName);
-                    System.out.println(fileNames);
                 } catch (IOException e) {
                     fileNames.add(null);
                 }
