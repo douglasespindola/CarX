@@ -27,7 +27,7 @@ public class AdsResource extends ApplicationResource{
     public Response getAll() {
         try {
             Gson json = new Gson();
-            return Response.status(200).type(MediaType.APPLICATION_JSON).entity(json.toJson(adsService.getAllAds())).build();
+            return Response.status(200).type(MediaType.APPLICATION_JSON).entity(json.toJson(adsService.getAll())).build();
         } catch (Exception e) {
             //Gson json = new Gson();
             MessageDto message = new MessageDto();
@@ -73,7 +73,7 @@ public class AdsResource extends ApplicationResource{
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     public Response remove(@PathParam("id") Integer id) {
         try {
-            AdsDto ads = adsService.getAds(id);
+            AdsDto ads = adsService.get(id);
 
             if(ads.getImageAds()!=null){
                 for(ImageAdsDto imageAds : ads.getImageAds()){
@@ -99,7 +99,7 @@ public class AdsResource extends ApplicationResource{
     public Response get(@PathParam("id") Integer id) {
         try {
             Gson json = new Gson();
-            AdsDto ads = adsService.getAds(id);
+            AdsDto ads = adsService.get(id);
             if (ads == null) {
                 return Response.status(400).type(MediaType.APPLICATION_JSON).entity(json.toJson(ads)).build();
             }

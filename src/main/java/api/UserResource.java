@@ -36,9 +36,9 @@ public class UserResource {
     @GET
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    public Response getAllUsers() {
+    public Response getAll() {
         try {
-            return Response.status(200).type(MediaType.APPLICATION_JSON).entity(new Gson().toJson(userService.getAllUsers())).build();
+            return Response.status(200).type(MediaType.APPLICATION_JSON).entity(new Gson().toJson(userService.getAll())).build();
         } catch (Exception e) {
             Gson json = new Gson();
             MessageDto message = new MessageDto();
@@ -51,7 +51,7 @@ public class UserResource {
     @PUT
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    public Response updateUser(String jsonString) {
+    public Response update(String jsonString) {
         try {
             Gson json = new Gson();
             User user = json.fromJson(jsonString, User.class);
@@ -67,7 +67,7 @@ public class UserResource {
     @POST
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    public Response createUser(String jsonString) {
+    public Response create(String jsonString) {
         try {
             Gson json = new Gson();
             User user = json.fromJson(jsonString, User.class);
@@ -83,7 +83,7 @@ public class UserResource {
     @DELETE
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    public Response removeUser(@PathParam("id") Integer id) {
+    public Response remove(@PathParam("id") Integer id) {
         try {
             Gson json = new Gson();
             userService.remove(id);
@@ -101,10 +101,10 @@ public class UserResource {
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    public Response getUser(@PathParam("id") Integer id) {
+    public Response get(@PathParam("id") Integer id) {
         try {
             Gson json = new Gson();
-            User user = userService.getUser(id);
+            User user = userService.get(id);
             return Response.status(200).type(MediaType.APPLICATION_JSON).entity(json.toJson(user)).build();
         } catch (Exception e) {
             Gson json = new Gson();
@@ -122,6 +122,5 @@ public class UserResource {
         User user = json.fromJson(jsonString, User.class);
         return json.toJson(userService.getToken(user));
     }
-
 
 }

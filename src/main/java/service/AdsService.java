@@ -32,7 +32,7 @@ public class AdsService {
      * @return
      */
     @Transactional
-    public List<AdsDto> getAllAds() {
+    public List<AdsDto> getAll() {
         try {
             Query query = entityManager.createNamedQuery("Ads.getAllAds");
             List<Ads> ads = query.getResultList();
@@ -73,7 +73,7 @@ public class AdsService {
         return adsDtoInsert;
     }
 
-    public AdsDto getAds(Integer id) {
+    public AdsDto get(Integer id) {
         try {
             Query query = entityManager.createNamedQuery("Ads.getAds");
             query.setParameter("id", id);

@@ -22,7 +22,7 @@ public class UserService {
     @PersistenceContext(name = "pi2017")
     private EntityManager entityManager;
     @Transactional
-    public List<User> getAllUsers() {
+    public List<User> getAll() {
         try {
             Query query = entityManager.createNamedQuery("User.getAllUsers");
             return query.getResultList();
@@ -31,7 +31,7 @@ public class UserService {
         }
     }
     @Transactional
-    public User getUser(Integer id) {
+    public User get(Integer id) {
         try {
             Query query = entityManager.createNamedQuery("User.getUser");
             query.setParameter("id", id);

@@ -57,7 +57,7 @@ public class ImageAdsResource extends ApplicationResource {
     @DELETE
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    public Response removeAds(@PathParam("id") Integer id) {
+    public Response remove(@PathParam("id") Integer id) {
         try {
             Gson json = new Gson();
             ImageAds imageAds = imageAdsService.get(id);
