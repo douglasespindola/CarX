@@ -1,5 +1,6 @@
 package entity;
 
+import dto.ImageAdsDto;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
@@ -17,13 +18,14 @@ public class ImageAds {
     @Column
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST})
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
     @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name = "ads_id")
     private Ads ads;
 
     @Transient
     private Integer ads_id;
+
 
     @Transient
     public Integer getAdsId() {
@@ -33,6 +35,12 @@ public class ImageAds {
     @Transient
     public void setAdsId(Integer ads_id) {
         this.ads_id = ads_id;
+    }
+
+    public void setValues(ImageAdsDto imageAdsDto) {
+        this.name = imageAdsDto.getName();
+        this.id = imageAdsDto.getId();
+        this.ads_id = imageAdsDto.getAds().getId();
     }
 
     public Integer getId() {
