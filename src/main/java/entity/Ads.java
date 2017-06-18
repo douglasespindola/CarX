@@ -1,5 +1,6 @@
 package entity;
 
+import dto.AdsDto;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
@@ -50,7 +51,14 @@ public class Ads implements Serializable {
         this.user_id = user_id;
     }
 
-
+    public void setValues(AdsDto ads) {
+        this.id = ads.getId();
+        this.titleAds = ads.getTitleAds();
+        this.value = ads.getValue();
+        this.branchKey = ads.getBranchKey();
+        this.year = ads.getYear();
+        this.user_id = ads.getUserId();
+    }
 
     public List<ImageAds> getImageAds() {
         return imageAds;
