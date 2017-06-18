@@ -37,6 +37,14 @@ public class AdsDto {
         this.user_id = ads.getUserId();
     }
 
+    public Integer getUserId() {
+        return user_id;
+    }
+
+    public void setUserId(Integer user_id) {
+        this.user_id = user_id;
+    }
+
     public Integer getId() {
         return id;
     }
