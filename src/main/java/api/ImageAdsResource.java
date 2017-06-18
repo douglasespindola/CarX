@@ -1,6 +1,10 @@
 package api;
 
+import javax.annotation.PostConstruct;
+import javax.servlet.ServletContext;
+
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -14,7 +18,15 @@ import java.util.List;
 @Path("image-ads")
 public class ImageAdsResource {
 
-    private final String UPLOADED_FILE_PATH = "c:/uploads_carx/";
+    @Context
+    ServletContext context;
+
+    private String UPLOADED_FILE_PATH = "";
+
+    @PostConstruct
+    public void PostConstruct(){
+        this.UPLOADED_FILE_PATH = this.context.getInitParameter("upload_path");
+    }
 
     @POST
     @Path("/{id}")
