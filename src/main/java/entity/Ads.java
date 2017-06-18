@@ -1,10 +1,13 @@
 package entity;
 
 import dto.AdsDto;
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import java.io.Serializable;
 import java.util.List;
 
@@ -32,11 +35,12 @@ public class Ads implements Serializable {
     @Transient
     private Integer user_id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST})
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
     @NotFound(action = NotFoundAction.IGNORE)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @Cascade(org.hibernate.annotations.CascadeType.DELETE)
     @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE}, mappedBy = "ads")
     @NotFound(action = NotFoundAction.IGNORE)
     private List<ImageAds> imageAds;
