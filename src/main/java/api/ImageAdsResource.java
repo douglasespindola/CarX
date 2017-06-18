@@ -22,20 +22,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Path("image-ads")
-public class ImageAdsResource {
-
-    @Context
-    ServletContext context;
+public class ImageAdsResource extends ApplicationResource {
 
     @Inject
     private ImageAdsService imageAdsService;
-
-    private String UPLOADED_FILE_PATH = "";
-
-    @PostConstruct
-    public void PostConstruct(){
-        this.UPLOADED_FILE_PATH = this.context.getInitParameter("upload_path");
-    }
 
     @POST
     @Path("/{ads_id}")
