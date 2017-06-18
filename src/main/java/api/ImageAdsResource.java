@@ -1,6 +1,7 @@
 package api;
 
 import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 import javax.servlet.ServletContext;
 
 import javax.ws.rs.*;
@@ -8,10 +9,15 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.google.gson.Gson;
+import dto.ImageAdsDto;
+import dto.MessageDto;
 import entity.ImageAds;
 import helper.UploadHelper;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
+import service.ImageAdsService;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +27,9 @@ public class ImageAdsResource {
     @Context
     ServletContext context;
 
+    @Inject
+    private ImageAdsService imageAdsService;
+
     private String UPLOADED_FILE_PATH = "";
 
     @PostConstruct
@@ -29,10 +38,10 @@ public class ImageAdsResource {
     }
 
     @POST
-    @Path("/{id}")
+    @Path("/{ads_id}")
     @Consumes("multipart/form-data")
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    public Response uploadFile(@PathParam("id") Integer id, MultipartFormDataInput dataInput) {
+    public Response create(@PathParam("ads_id") Integer ads_id, MultipartFormDataInput dataInput) {
         try {
             ArrayList file = UploadHelper.updateArchive(dataInput,UPLOADED_FILE_PATH );
             if(file==null){
@@ -42,14 +51,37 @@ public class ImageAdsResource {
             for (Object f : file){
                 System.out.print(f);
                 ImageAds imageInsert = new ImageAds();
-                imageInsert.setAdsId(id);
+                imageInsert.setAdsId(ads_id);
                 imageInsert.setName(f.toString());
+                imageAdsService.create(imageInsert);
                 imageAds.add(imageInsert);
             }
             return Response.status(200).entity(imageAds).build();
         } catch (Exception e){
-            return Response.status(400).entity(e.getMessage()).build();
+            MessageDto message = new MessageDto();
+            message.setMessage(e.getMessage() + e.getClass());
+            return Response.status(400).type(MediaType.APPLICATION_JSON).entity(message).build();
         }
     }
 
+    @DELETE
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    public Response removeAds(@PathParam("id") Integer id) {
+        try {
+            Gson json = new Gson();
+            ImageAds imageAds = imageAdsService.get(id);
+            imageAdsService.remove(id);
+            (new File(this.UPLOADED_FILE_PATH+imageAds.getName())).delete();
+            MessageDto message = new MessageDto();
+            message.setMessage("Removido com sucesso");
+            return Response.status(200).type(MediaType.APPLICATION_JSON).entity(json.toJson(message)).build();
+        } catch (Exception e) {
+            Gson json = new Gson();
+            MessageDto message = new MessageDto();
+            message.setMessage(e.getMessage() + e.getClass());
+            return Response.status(400).type(MediaType.APPLICATION_JSON).entity(message).build();
+
+        }
+    }
 }
