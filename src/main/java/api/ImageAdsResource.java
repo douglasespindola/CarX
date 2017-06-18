@@ -24,7 +24,6 @@ import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 @Path("image-ads")
 public class ImageAdsResource {
 
-    /* Aqui o ideal seria colocar no demoiselle.properties */
     private final String UPLOADED_FILE_PATH = "c:/uploads_carx/";
 
     @POST
