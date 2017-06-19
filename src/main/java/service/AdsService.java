@@ -88,7 +88,7 @@ public class AdsService {
 
     @Transactional
     public AdsDto update(Ads ads) {
-        User user = userService.getUser(ads.getUserId());
+        User user = userService.get(ads.getUserId());
         ads.setUser(user);
         entityManager.merge(ads);
         AdsDto adsDto = new AdsDto();
@@ -98,7 +98,7 @@ public class AdsService {
 
     @Transactional
     public AdsDto create(Ads ads) {
-        User user = userService.getUser(ads.getUserId());
+        User user = userService.get(ads.getUserId());
         ads.setUser(user);
         entityManager.persist(ads);
         AdsDto adsDto = new AdsDto();

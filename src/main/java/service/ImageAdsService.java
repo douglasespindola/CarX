@@ -26,7 +26,7 @@ public class ImageAdsService {
 
     @Transactional
     public ImageAdsDto create(ImageAds imageAds) {
-        AdsDto adsDto = adsService.getAds(imageAds.getAdsId());
+        AdsDto adsDto = adsService.get(imageAds.getAdsId());
         Ads ads = new Ads();
         ads.setValues(adsDto);
         imageAds.setAds(ads);
@@ -39,7 +39,7 @@ public class ImageAdsService {
 
     @Transactional
     public ImageAdsDto update(ImageAds imageAds) {
-        AdsDto adsDto = adsService.getAds(imageAds.getAdsId());
+        AdsDto adsDto = adsService.get(imageAds.getAdsId());
         Ads ads = new Ads();
         ads.setValues(adsDto);
         imageAds.setAds(ads);
