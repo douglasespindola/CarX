@@ -37,7 +37,7 @@ public class AdsResource extends ApplicationResource{
     }
 
     @PUT
-    @Path("/")
+    @Path("/admin")
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     public Response update(String jsonString) {
         try {
@@ -53,7 +53,7 @@ public class AdsResource extends ApplicationResource{
     }
 
     @POST
-    @Path("/")
+    @Path("/admin")
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     public Response create(String jsonString) {
         try {
@@ -69,7 +69,7 @@ public class AdsResource extends ApplicationResource{
     }
 
     @DELETE
-    @Path("/{id}")
+    @Path("/admin/{id}")
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     public Response remove(@PathParam("id") Integer id) {
         try {
