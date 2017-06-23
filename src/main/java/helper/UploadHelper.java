@@ -1,6 +1,7 @@
 package helper;
 
 import com.sun.org.apache.xerces.internal.xs.StringList;
+import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.io.IOUtils;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
@@ -72,6 +73,9 @@ public class UploadHelper {
                         file.mkdir();
                     }
                     UploadHelper.writeFile(bytes, UPLOADED_FILE_PATH + fileName);
+                    Thumbnails.of(new File(UPLOADED_FILE_PATH+auxFileName))
+                            .size(160, 160)
+                            .toFile(new File(UPLOADED_FILE_PATH+"Thumb_"+auxFileName));
 
                     fileNames.add(auxFileName);
                 } catch (IOException e) {
