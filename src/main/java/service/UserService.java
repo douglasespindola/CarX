@@ -54,11 +54,10 @@ public class UserService {
 
     @Transactional
     public synchronized User create(User user) {
-
         Query query = entityManager.createNamedQuery("User.checkUserNamedAvailable");
         query.setParameter("email",user.getEmail());
         List<User> users = query.getResultList();
-        if(users == null){
+        if(users.size() == 0){
             entityManager.persist(user);
             return user;
         }
@@ -83,7 +82,7 @@ public class UserService {
                         (user.getEmail() + ":" + (new DateTime().getMillis() + 1800)).getBytes())
                 );
                 entityManager.persist(userLogged);
-
+                
                 tokenDto.setToken(userLogged.getToken());
                 return tokenDto;
             }
