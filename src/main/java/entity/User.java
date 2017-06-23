@@ -13,10 +13,12 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity(name="user")
 @SuppressWarnings("serial")
 @NamedQueries({
-        @NamedQuery(name = "User.getLogin", query = "select u from user u where u.email=:email and u.password=:password"),
+        @NamedQuery(name =
+                "User.getLogin", query = "select u from user u where u.email=:email and u.password=:password"),
         @NamedQuery(name = "User.getAllUsers", query = "select u from user u"),
         @NamedQuery(name = "User.getUser", query = "select u from user u where u.id=:id"),
-        @NamedQuery(name = "User.checkUserNamedAvailable", query = "select u from user u where u.email=:email")
+        @NamedQuery(name = "User.checkUserNamedAvailable", query = "select u from user u where u.email=:email"),
+        @NamedQuery(name = "User.getToken", query = "select u from user u where u.token=:token")
 })
 public class User implements Serializable {
     @Id

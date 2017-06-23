@@ -17,7 +17,7 @@ import org.joda.time.DateTime;
 
 @Named
 @RequestScoped
-public class UserService {
+public class UserService{
 
     @PersistenceContext(name = "pi2017")
     private EntityManager entityManager;
@@ -91,6 +91,16 @@ public class UserService {
         } catch (Exception e) {
             tokenDto.setToken("");
             return tokenDto;
+        }
+    }
+    @Transactional
+    public User checkToken(String token) {
+        try {
+            Query query = entityManager.createNamedQuery("User.getToken");
+            query.setParameter("token", token);
+            return (User) query.getSingleResult();
+        } catch (Exception e) {
+            return null;
         }
     }
 }

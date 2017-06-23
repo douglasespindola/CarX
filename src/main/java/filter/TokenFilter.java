@@ -4,6 +4,7 @@ import org.joda.time.DateTime;
 import service.UserService;
 
 import javax.inject.Inject;
+import javax.persistence.Query;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,9 +18,6 @@ public class TokenFilter implements Filter {
     @Inject
     private UserService userService;
 
-
-
-
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {}
 
@@ -30,15 +28,16 @@ public class TokenFilter implements Filter {
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
         try{
             String token = request.getHeader("Authorization");
-            System.out.println(token);
             if (token.equals("") || token.equals(null)){
                 resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
             }else{
-
                 String tokenDecode = new String(DatatypeConverter.parseBase64Binary(token));
                 String[] list = tokenDecode.split(":");
                 Long time = Long.parseLong(list[1]);
                 if (new DateTime().getMillis() > time ){
+                    resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                }
+                if (userService.checkToken(token) == null) {
                     resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
                 }
             }
@@ -46,9 +45,7 @@ public class TokenFilter implements Filter {
         }catch (Exception e){
             resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
         }
-
     }
-
     @Override
     public void destroy() {}
 }

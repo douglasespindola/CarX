@@ -18,6 +18,8 @@ public class AdsDto {
 
     private String branchKey;
 
+    private String branchName;
+
     private Integer year;
 
     private String keyWords;
@@ -75,6 +77,14 @@ public class AdsDto {
 
     public void setBranchKey(String branchKey) {
         this.branchKey = branchKey;
+    }
+
+    public String getBranchName() {
+        return branchName;
+    }
+
+    public void setBranchName(String branchName) {
+        this.branchName = branchName;
     }
 
     public Integer getYear() {

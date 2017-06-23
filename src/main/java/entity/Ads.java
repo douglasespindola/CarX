@@ -27,6 +27,8 @@ public class Ads implements Serializable {
     private Double value;
     @Column(name = "branch_key")
     private String branchKey;
+    @Column(name = "branch_name")
+    private String branchName;
     @Column
     private Integer year;
     @Column(name = "key_words")
@@ -60,6 +62,7 @@ public class Ads implements Serializable {
         this.titleAds = ads.getTitleAds();
         this.value = ads.getValue();
         this.branchKey = ads.getBranchKey();
+        this.branchName = ads.getBranchName();
         this.year = ads.getYear();
         this.user_id = ads.getUserId();
     }
@@ -112,6 +115,14 @@ public class Ads implements Serializable {
         this.branchKey = branchKey;
     }
 
+    public String getBranchName() {
+        return branchName;
+    }
+
+    public void setBranchName(String branchName) {
+        this.branchName = branchName;
+    }
+
     public Integer getYear() {
         return year;
     }
@@ -127,4 +138,6 @@ public class Ads implements Serializable {
     public void setKeyWords(String keyWords) {
         this.keyWords = keyWords;
     }
+
+
 }
