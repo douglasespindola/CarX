@@ -113,17 +113,9 @@ public class AdsResource extends ApplicationResource{
         }
     }
 
-    //@Path("/user/{id}{format:(/format/[^/]+?)?}{encoding:(/encoding/[^/]+?)?}")
-    //public Response getUser(
-    //        @PathParam("id") int id,
-    //        @PathParam("format") String format,
-    //        @PathParam("encoding") String encoding) {
-    //    String responseText = "";
-    //Exemplo URL: http://localhost:9091/?order=asc,value&limit=10&cons=value,<=,3:name,like,'corsa'
-
     @GET
     @Path("/filter/{order}/{limit}/{cons}")
-    @Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     public Response getAllWithConditional(
             @PathParam("order") String order,
             @PathParam("limit") String limit,
@@ -137,7 +129,6 @@ public class AdsResource extends ApplicationResource{
           parseUrlQueryHelper.setOrder(order);
           return Response.status(200).type(MediaType.APPLICATION_JSON).entity(json.toJson(adsService.getAllWithConditional(parseUrlQueryHelper.getSQL()))).build();
       } catch (Exception e) {
-          //Gson json = new Gson();
           MessageDto message = new MessageDto();
           message.setMessage(e.getMessage() + e.getClass());
           return Response.status(400).type(MediaType.APPLICATION_JSON).entity(message).build();
