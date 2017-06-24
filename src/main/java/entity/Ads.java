@@ -21,8 +21,12 @@ public class Ads implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "title_ads")
-    private String titleAds;
+    @Column(name = "description")
+    private String description;
+    @Column(name = "model_name")
+    private String modelName;
+    @Column(name = "model_key")
+    private String modelKey;
     @Column
     private Double value;
     @Column(name = "branch_key")
@@ -31,8 +35,7 @@ public class Ads implements Serializable {
     private String branchName;
     @Column
     private Integer year;
-    @Column(name = "key_words")
-    private String keyWords;
+
     //TODO: criar campos de created_at e updated_at, lembrar de reproduzir os campos no DTO
     @Transient
     private Integer user_id;
@@ -59,7 +62,9 @@ public class Ads implements Serializable {
 
     public void setValues(AdsDto ads) {
         this.id = ads.getId();
-        this.titleAds = ads.getTitleAds();
+        this.description = ads.getDescription();
+        this.modelName = ads.getModelName();
+        this.modelKey = ads.getModelKey();
         this.value = ads.getValue();
         this.branchKey = ads.getBranchKey();
         this.branchName = ads.getBranchName();
@@ -89,14 +94,6 @@ public class Ads implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getTitleAds() {
-        return titleAds;
-    }
-
-    public void setTitleAds(String titleAds) {
-        this.titleAds = titleAds;
     }
 
     public Double getValue() {
@@ -131,13 +128,27 @@ public class Ads implements Serializable {
         this.year = year;
     }
 
-    public String getKeyWords() {
-        return keyWords;
+    public String getDescription() {
+        return description;
     }
 
-    public void setKeyWords(String keyWords) {
-        this.keyWords = keyWords;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
+    public String getModelName() {
+        return modelName;
+    }
 
+    public void setModelName(String modelName) {
+        this.modelName = modelName;
+    }
+
+    public String getModelKey() {
+        return modelKey;
+    }
+
+    public void setModelKey(String modelKey) {
+        this.modelKey = modelKey;
+    }
 }
