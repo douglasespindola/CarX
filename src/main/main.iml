@@ -17,6 +17,7 @@
         <setting name="provider-name" value="" />
         <datasource-mapping>
           <factory-entry name="comprasPU" />
+          <factory-entry name="pi2017" />
         </datasource-mapping>
         <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/resources/webapp/META-INF/persistence.xml" />
       </configuration>

@@ -79,7 +79,7 @@ public class UserService{
             User userLogged = (User) query.getSingleResult();
             if (userLogged != null) {
                 userLogged.setToken(DatatypeConverter.printBase64Binary(
-                        (user.getEmail() + ":" + (new DateTime().getMillis() + 1800)).getBytes())
+                        (user.getEmail() + ":" + (new DateTime().getMillis() + (60 * 60 * 60 * 60))).getBytes())
                 );
                 entityManager.persist(userLogged);
                 
