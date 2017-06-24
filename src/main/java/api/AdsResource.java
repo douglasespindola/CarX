@@ -6,6 +6,7 @@ import dto.AdsDto;
 import dto.ImageAdsDto;
 import dto.MessageDto;
 import entity.ImageAds;
+import helper.ParseUrlQueryHelper;
 import service.AdsService;
 import entity.Ads;
 
@@ -110,6 +111,37 @@ public class AdsResource extends ApplicationResource{
             message.setMessage(e.getMessage() + e.getClass());
             return Response.status(400).type(MediaType.APPLICATION_JSON).entity(message).build();
         }
+    }
+
+    //@Path("/user/{id}{format:(/format/[^/]+?)?}{encoding:(/encoding/[^/]+?)?}")
+    //public Response getUser(
+    //        @PathParam("id") int id,
+    //        @PathParam("format") String format,
+    //        @PathParam("encoding") String encoding) {
+    //    String responseText = "";
+    //Exemplo URL: http://localhost:9091/?order=asc,value&limit=10&cons=value,<=,3:name,like,'corsa'
+
+    @GET
+    @Path("/filter/{order}/{limit}/{cons}")
+    @Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
+    public Response getAllWithConditional(
+            @PathParam("order") String order,
+            @PathParam("limit") String limit,
+            @PathParam("cons") String cons
+    ){
+      try {
+          Gson json = new Gson();
+          ParseUrlQueryHelper parseUrlQueryHelper = new ParseUrlQueryHelper();
+          parseUrlQueryHelper.setCons(cons);
+          parseUrlQueryHelper.setLimit(limit);
+          parseUrlQueryHelper.setOrder(order);
+          return Response.status(200).type(MediaType.APPLICATION_JSON).entity(json.toJson(adsService.getAllWithConditional(parseUrlQueryHelper.getSQL()))).build();
+      } catch (Exception e) {
+          //Gson json = new Gson();
+          MessageDto message = new MessageDto();
+          message.setMessage(e.getMessage() + e.getClass());
+          return Response.status(400).type(MediaType.APPLICATION_JSON).entity(message).build();
+      }
     }
 }
 

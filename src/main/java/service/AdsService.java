@@ -87,6 +87,26 @@ public class AdsService {
     }
 
     @Transactional
+    public List<AdsDto> getAllWithConditional(String criteria){
+        try {
+            Query query = entityManager.createQuery("SELECT * from ads " + criteria);
+
+            List<Ads> ads = query.getResultList();
+
+            List adsDto = new ArrayList<AdsDto>();
+
+            for (Ads a : ads) {
+                AdsDto adsDtoInsert = new AdsDto();
+                adsDtoInsert.setValues((Ads) a);
+                adsDto.add(this.adsDtoInsert(a, adsDtoInsert));
+            }
+            return adsDto;
+        }catch (Exception e) {
+            return new ArrayList<>();
+        }
+    }
+
+    @Transactional
     public AdsDto update(Ads ads) {
         User user = userService.get(ads.getUserId());
         ads.setUser(user);
