@@ -82,14 +82,14 @@ public class UserService{
                         (user.getEmail() + ":" + (new DateTime().getMillis() + (60 * 60 * 60 * 60))).getBytes())
                 );
                 entityManager.persist(userLogged);
-                
+
                 tokenDto.setToken(userLogged.getToken());
                 return tokenDto;
             }
-            tokenDto.setToken("");
+            tokenDto.setToken(null);
             return tokenDto;
         } catch (Exception e) {
-            tokenDto.setToken("");
+            tokenDto.setToken(null);
             return tokenDto;
         }
     }
