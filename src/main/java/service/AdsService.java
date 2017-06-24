@@ -89,10 +89,9 @@ public class AdsService {
     @Transactional
     public List<AdsDto> getAllWithConditional(String criteria){
         try {
-            Query query = entityManager.createQuery("SELECT * from ads " + criteria);
+            Query query = entityManager.createNativeQuery("SELECT * from ads " + criteria, Ads.class);
 
-            List<Ads> ads = query.getResultList();
-
+            List<Ads> ads = (List<Ads>) query.getResultList();
             List adsDto = new ArrayList<AdsDto>();
 
             for (Ads a : ads) {
