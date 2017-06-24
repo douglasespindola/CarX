@@ -12,7 +12,11 @@ public class AdsDto {
 
     private Integer id;
 
-    private String titleAds;
+    private String description;
+
+    private String modelName;
+    
+    private String modelKey;
 
     private Double value;
 
@@ -22,8 +26,6 @@ public class AdsDto {
 
     private Integer year;
 
-    private String keyWords;
-
     private UserDto user;
 
     private List<ImageAdsDto> imageAds;
@@ -32,9 +34,12 @@ public class AdsDto {
 
     public void setValues(Ads ads) {
         this.id = ads.getId();
-        this.titleAds = ads.getTitleAds();
+        this.description = ads.getDescription();
+        this.modelName = ads.getModelName();
+        this.modelKey = ads.getModelKey();
         this.value = ads.getValue();
         this.branchKey = ads.getBranchKey();
+        this.branchName = ads.getBranchName();
         this.year = ads.getYear();
         this.user_id = ads.getUserId();
     }
@@ -53,14 +58,6 @@ public class AdsDto {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getTitleAds() {
-        return titleAds;
-    }
-
-    public void setTitleAds(String titleAds) {
-        this.titleAds = titleAds;
     }
 
     public Double getValue() {
@@ -95,14 +92,6 @@ public class AdsDto {
         this.year = year;
     }
 
-    public String getKeyWords() {
-        return keyWords;
-    }
-
-    public void setKeyWords(String keyWords) {
-        this.keyWords = keyWords;
-    }
-
     public UserDto getUser() {
         return user;
     }
@@ -117,5 +106,29 @@ public class AdsDto {
 
     public void setImageAds(List<ImageAdsDto> imageAds) {
         this.imageAds = imageAds;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getModelName() {
+        return modelName;
+    }
+
+    public void setModelName(String modelName) {
+        this.modelName = modelName;
+    }
+
+    public String getModelKey() {
+        return modelKey;
+    }
+
+    public void setModelKey(String modelKey) {
+        this.modelKey = modelKey;
     }
 }
