@@ -115,6 +115,15 @@ public class UserResource {
             return Response.status(400).type(MediaType.APPLICATION_JSON).entity(message).build();
         }
     }
+    @POST
+    @Path("/signOut")
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    public Response signOut(String jsonString) {
+        //TODO implementar
+        MessageDto message = new MessageDto();
+        message.setMessage("flw");
+        return Response.status(200).type(MediaType.APPLICATION_JSON).entity(message).build();
+    }
 
     @POST
     @Path("/getToken")
