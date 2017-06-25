@@ -1,14 +1,8 @@
 package entity;
-
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
+import java.security.*;
 import javax.persistence.*;
-import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.DatatypeConverter;
 
 @Entity(name="user")
 @SuppressWarnings("serial")
@@ -82,10 +76,17 @@ public class User implements Serializable {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPassword(String password) throws NoSuchAlgorithmException {
+        this.password = this.convertPasswordToMD5(password);
     }
 
+    public String convertPasswordToMD5(String password) throws NoSuchAlgorithmException {
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        md.update(password.getBytes());
+        byte[] digest = md.digest();
+        return DatatypeConverter
+                .printHexBinary(digest).toLowerCase();
+    }
     //@XmlTransient
 //    public List<Ads> getAds() {
 //        return ads;
