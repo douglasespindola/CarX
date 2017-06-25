@@ -56,7 +56,7 @@ public class UserDto {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password =  password;
     }
 
     public String getEmail() {
