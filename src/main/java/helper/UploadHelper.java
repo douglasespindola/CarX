@@ -74,7 +74,7 @@ public class UploadHelper {
                     }
                     UploadHelper.writeFile(bytes, UPLOADED_FILE_PATH + fileName);
                     Thumbnails.of(new File(UPLOADED_FILE_PATH+auxFileName))
-                            .size(160, 160)
+                            .size(275, 160)
                             .toFile(new File(UPLOADED_FILE_PATH+"Thumb_"+auxFileName));
 
                     fileNames.add(auxFileName);
