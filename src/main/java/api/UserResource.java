@@ -24,6 +24,8 @@ import javax.ws.rs.core.Response;
 import com.google.gson.Gson;
 
 import dto.MessageDto;
+import dto.TokenDto;
+import dto.UserDto;
 import entity.User;
 import service.UserService;
 
@@ -117,10 +119,21 @@ public class UserResource {
     @POST
     @Path("/getToken")
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    public String getToken(String jsonString) {
-        Gson json = new Gson();
-        User user = json.fromJson(jsonString, User.class);
-        return json.toJson(userService.getToken(user));
+    public Response getToken(String jsonString) {
+        try {
+            Gson json = new Gson();
+            User user = json.fromJson(jsonString, User.class);
+            TokenDto token = userService.getToken(user);
+            if(token.getToken()==null) {
+                return Response.status(400).type(MediaType.APPLICATION_JSON).entity(json.toJson(token)).build();
+            }
+            return Response.status(200).type(MediaType.APPLICATION_JSON).entity(json.toJson(token)).build();
+        } catch (Exception e) {
+            Gson json = new Gson();
+            MessageDto message = new MessageDto();
+            message.setMessage(e.getMessage() + e.getClass());
+            return Response.status(400).type(MediaType.APPLICATION_JSON).entity(message).build();
+        }
     }
 
 }
