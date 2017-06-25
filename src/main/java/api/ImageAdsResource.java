@@ -39,7 +39,6 @@ public class ImageAdsResource extends ApplicationResource {
             }
             List<ImageAds> imageAds = new ArrayList<>();
             for (Object f : file){
-                System.out.print(f);
                 ImageAds imageInsert = new ImageAds();
                 imageInsert.setAdsId(ads_id);
                 imageInsert.setName(f.toString());

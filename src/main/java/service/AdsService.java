@@ -65,7 +65,6 @@ public class AdsService {
             for (ImageAds ids : ads.getImageAds()) {
                 ImageAdsDto imagesDtoInsert = new ImageAdsDto();
                 imagesDtoInsert.setValues(ids);
-                System.out.println(imagesDto);
                 imagesDto.add(imagesDtoInsert);
             }
             adsDtoInsert.setImageAds(imagesDto);

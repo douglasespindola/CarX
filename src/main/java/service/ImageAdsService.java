@@ -30,7 +30,6 @@ public class ImageAdsService {
         Ads ads = new Ads();
         ads.setValues(adsDto);
         imageAds.setAds(ads);
-        System.out.println(imageAds);
         entityManager.persist(imageAds);
         ImageAdsDto imageAdsDto = new ImageAdsDto();
         imageAdsDto.setValues(imageAds);
