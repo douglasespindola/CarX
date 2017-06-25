@@ -1,5 +1,6 @@
 package service;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.DatatypeConverter;
@@ -42,22 +43,31 @@ public class UserService{
     }
 
     @Transactional
-    public synchronized User update(User user) {
+    public synchronized User update(User user) throws NoSuchAlgorithmException {
         Query query = entityManager.createNamedQuery("User.checkUserNamedAvailable");
         query.setParameter("email",user.getEmail());
+        String password = user.getPassword();
+        user.setPassword(password);
         List<User> users = query.getResultList();
-        if(users == null) {
+        if(users.size() == 0) {
             return entityManager.merge(user);
+        }
+        for(User us: users) {
+            if(us.getId() == user.getId()) {
+                return entityManager.merge(user);
+            }
         }
         throw new IllegalArgumentException("Esse email já está vinculado a uma conta favor usar outro");
     }
 
     @Transactional
-    public synchronized User create(User user) {
+    public synchronized User create(User user) throws NoSuchAlgorithmException {
         Query query = entityManager.createNamedQuery("User.checkUserNamedAvailable");
         query.setParameter("email",user.getEmail());
         List<User> users = query.getResultList();
         if(users.size() == 0){
+            String password = user.getPassword();
+            user.setPassword(password);
             entityManager.persist(user);
             return user;
         }
@@ -75,7 +85,7 @@ public class UserService{
         TokenDto tokenDto = new TokenDto();
         try {
             Query query = entityManager.createNamedQuery("User.getLogin");
-            query.setParameter("email", user.getEmail()).setParameter("password", user.getPassword());
+            query.setParameter("email", user.getEmail()).setParameter("password", user.convertPasswordToMD5(user.getPassword()));
             User userLogged = (User) query.getSingleResult();
             if (userLogged != null) {
                 userLogged.setToken(DatatypeConverter.printBase64Binary(
@@ -84,6 +94,8 @@ public class UserService{
                 entityManager.persist(userLogged);
 
                 tokenDto.setToken(userLogged.getToken());
+                tokenDto.setName(userLogged.getName());
+                tokenDto.setUserId(userLogged.getId());
                 return tokenDto;
             }
             tokenDto.setToken(null);
