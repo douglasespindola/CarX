@@ -95,6 +95,8 @@ public class UserService{
 
                 tokenDto.setToken(userLogged.getToken());
                 tokenDto.setName(userLogged.getName());
+                tokenDto.setEmail(userLogged.getEmail());
+                tokenDto.setCpf(userLogged.getCpf());
                 tokenDto.setUserId(userLogged.getId());
                 return tokenDto;
             }
