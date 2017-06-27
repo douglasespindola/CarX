@@ -34,16 +34,20 @@ public class TokenFilter implements Filter {
                 String tokenDecode = new String(DatatypeConverter.parseBase64Binary(token));
                 String[] list = tokenDecode.split(":");
                 Long time = Long.parseLong(list[1]);
+
                 if (new DateTime().getMillis() > time ){
                     resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                    return;
                 }
                 if (userService.checkToken(token) == null) {
                     resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                    return;
                 }
             }
             chain.doFilter(request, servletResponse);
         }catch (Exception e){
             resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+            return;
         }
     }
     @Override
