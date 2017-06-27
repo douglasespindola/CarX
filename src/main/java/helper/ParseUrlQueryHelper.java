@@ -45,9 +45,8 @@ public class ParseUrlQueryHelper {
             for (String c : splitCons) {
                 String[] value = c.split(",");
                 //cons += cons + value[0] + value[1] + value [2];
-                if (splitCons.length != 3) {
-                    cons += "";
-                } else if (i != splitCons.length - 1) {
+                cons += "";
+                if (i != splitCons.length - 1) {
                     cons += this.normalizeWhere(value[0], value[1], value[2]) + " and ";
                 } else {
                     cons += this.normalizeWhere(value[0], value[1], value[2]);
@@ -61,7 +60,6 @@ public class ParseUrlQueryHelper {
             } else {
                 cons += "";
             }
-
         }
         if (!cons.equals("")) {
             return "where " + cons;
@@ -91,7 +89,7 @@ public class ParseUrlQueryHelper {
 
     public String getOrderSQL() {
         String order = "";
-        if (this.order.equals("null") || this.order.length() != 2) {
+        if (this.order.equals("null")) {
             return order;
         }else{
             String[] splitOrder = this.order.split(",");
@@ -101,7 +99,7 @@ public class ParseUrlQueryHelper {
 
     public String getLimitSQL() {
         String limit = "";
-        if (this.limit.equals("null") || this.order.length() != 2) {
+        if (this.limit.equals("null")) {
             return limit;
         }
         return "limit " + this.limit;
