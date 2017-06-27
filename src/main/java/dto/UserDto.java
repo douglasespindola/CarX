@@ -47,8 +47,8 @@ public class UserDto {
         return cpf;
     }
 
-    public void setCpf(Long cpf) {
-        this.cpf = cpf;
+    public void setCpf(String cpf) {
+        this.cpf = Long.parseLong(cpf);
     }
 
     public String getPassword() {
