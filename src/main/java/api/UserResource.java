@@ -36,7 +36,7 @@ public class UserResource {
     private UserService userService;
 
     @GET
-    @Path("/")
+    @Path("/admin")
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     public Response getAll() {
         try {
@@ -51,7 +51,7 @@ public class UserResource {
 
 
     @PUT
-    @Path("/")
+    @Path("/admin")
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     public Response update(String jsonString) {
         try {
@@ -67,7 +67,7 @@ public class UserResource {
     }
 
     @POST
-    @Path("/")
+    @Path("/admin")
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     public Response create(String jsonString) {
         try {
@@ -83,7 +83,7 @@ public class UserResource {
     }
 
     @DELETE
-    @Path("/{id}")
+    @Path("/admin/{id}")
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     public Response remove(@PathParam("id") Integer id) {
         try {
@@ -101,7 +101,7 @@ public class UserResource {
     }
 
     @GET
-    @Path("/{id}")
+    @Path("/admin/{id}")
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     public Response get(@PathParam("id") Integer id) {
         try {
@@ -116,7 +116,7 @@ public class UserResource {
         }
     }
     @POST
-    @Path("/signOut")
+    @Path("/admin/signOut")
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     public Response signOut(String jsonString) {
         //TODO implementar
