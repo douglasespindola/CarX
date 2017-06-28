@@ -16,18 +16,16 @@
  */
 package api;
 
+import com.google.gson.Gson;
+import dto.MessageDto;
+import dto.TokenDto;
+import entity.User;
+import service.UserService;
+
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
-import com.google.gson.Gson;
-
-import dto.MessageDto;
-import dto.TokenDto;
-import dto.UserDto;
-import entity.User;
-import service.UserService;
 
 @Path("/user")
 public class UserResource {
@@ -67,7 +65,7 @@ public class UserResource {
     }
 
     @POST
-    @Path("/admin")
+    @Path("/")
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     public Response create(String jsonString) {
         try {

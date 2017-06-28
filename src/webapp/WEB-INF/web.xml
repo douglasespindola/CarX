@@ -18,7 +18,9 @@
   </filter>
   <filter-mapping>
     <filter-name>TokenFilter</filter-name>
-    <url-pattern>/api/admin/*</url-pattern>
+    <url-pattern>/api/ads/admin/*</url-pattern>
+    <url-pattern>/api//user/admin/*</url-pattern>
+    <url-pattern>/api/image-ads/admin/*</url-pattern>
   </filter-mapping>
 
   <context-param>

@@ -1,22 +1,16 @@
 package api;
 
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
-import javax.servlet.ServletContext;
-
-import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
 import com.google.gson.Gson;
-import dto.ImageAdsDto;
 import dto.MessageDto;
 import entity.ImageAds;
 import helper.UploadHelper;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 import service.ImageAdsService;
 
+import javax.inject.Inject;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +22,7 @@ public class ImageAdsResource extends ApplicationResource {
     private ImageAdsService imageAdsService;
 
     @POST
-    @Path("/{ads_id}")
+    @Path("/admin/{ads_id}")
     @Consumes("multipart/form-data")
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     public Response create(@PathParam("ads_id") Integer ads_id, MultipartFormDataInput dataInput) {
@@ -54,7 +48,7 @@ public class ImageAdsResource extends ApplicationResource {
     }
 
     @DELETE
-    @Path("/{id}")
+    @Path("/admin/{id}")
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     public Response remove(@PathParam("id") Integer id) {
         try {

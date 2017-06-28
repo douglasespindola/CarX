@@ -15,6 +15,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Named
@@ -108,6 +109,7 @@ public class AdsService {
     public AdsDto update(Ads ads) {
         User user = userService.get(ads.getUserId());
         ads.setUser(user);
+        ads.setUpdateAt(new Date());
         entityManager.merge(ads);
         AdsDto adsDto = new AdsDto();
         adsDto.setValues(ads);
@@ -118,6 +120,8 @@ public class AdsService {
     public AdsDto create(Ads ads) {
         User user = userService.get(ads.getUserId());
         ads.setUser(user);
+        ads.setCreateAt(new Date());
+        ads.setUpdateAt(new Date());
         entityManager.persist(ads);
         AdsDto adsDto = new AdsDto();
         adsDto.setValues(ads);

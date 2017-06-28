@@ -1,14 +1,13 @@
 package entity;
 
 import dto.AdsDto;
-import org.hibernate.annotations.*;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 @Entity(name = "ads")
@@ -35,6 +34,12 @@ public class Ads implements Serializable {
     private String branchName;
     @Column
     private Integer year;
+    @Column(name = "create_at", columnDefinition="DATETIME")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createAt;
+    @Column(name = "update_at", columnDefinition="DATETIME")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updateAt;
 
     //TODO: criar campos de created_at e updated_at, lembrar de reproduzir os campos no DTO
     @Transient
@@ -150,5 +155,21 @@ public class Ads implements Serializable {
 
     public void setModelKey(String modelKey) {
         this.modelKey = modelKey;
+    }
+
+    public Date getCreateAt() {
+        return createAt;
+    }
+
+    public void setCreateAt(Date createAt) {
+        this.createAt = createAt;
+    }
+
+    public Date getUpdateAt() {
+        return updateAt;
+    }
+
+    public void setUpdateAt(Date updateAt) {
+        this.updateAt = updateAt;
     }
 }
