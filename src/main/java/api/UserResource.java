@@ -41,7 +41,6 @@ public class UserResource extends ApplicationResource {
         try {
             return Response.status(200).type(MediaType.APPLICATION_JSON).entity(new Gson().toJson(userService.getAll())).build();
         } catch (Exception e) {
-            Gson json = new Gson();
             MessageDto message = new MessageDto();
             message.setMessage(e.getMessage() + e.getClass());
             return Response.status(400).type(MediaType.APPLICATION_JSON).entity(message).build();
@@ -56,10 +55,14 @@ public class UserResource extends ApplicationResource {
         try {
             Gson json = new Gson();
             User user = json.fromJson(jsonString, User.class);
+            if (ValidaDadosHelper.isCPF(user.getCpf().toString()) == false){
+                MessageDto message = new MessageDto();
+                message.setMessage("CPF invalido");
+                return Response.status(400).type(MediaType.APPLICATION_JSON).entity(message).build();
+            }
             String response = json.toJson(userService.update(user));
             return Response.status(200).type(MediaType.APPLICATION_JSON).entity(response).build();
         } catch (Exception e) {
-            Gson json = new Gson();
             MessageDto message = new MessageDto();
             message.setMessage(e.getMessage() + e.getClass());
             return Response.status(400).type(MediaType.APPLICATION_JSON).entity(message).build();
@@ -183,6 +186,9 @@ public class UserResource extends ApplicationResource {
                 User user = new User();
                 user.setToken(null);
                 user.setId(tokenDto.getUserId());
+                user.setName(tokenDto.getName());
+                user.setEmail(tokenDto.getEmail());
+                user.setCpf(tokenDto.getCpf().toString());
                 userService.update(user);
                 message.setMessage("Até a proxima :D");
                 return Response.status(200).type(MediaType.APPLICATION_JSON).entity(message).build();

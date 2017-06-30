@@ -113,7 +113,8 @@ public class AdsService {
         entityManager.merge(ads);
         AdsDto adsDto = new AdsDto();
         adsDto.setValues(ads);
-        return adsDto;
+        return this.adsDtoInsert(ads, adsDto);
+
     }
 
     @Transactional

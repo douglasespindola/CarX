@@ -6,6 +6,7 @@ import entity.User;
 import service.UserService;
 
 import javax.inject.Inject;
+import java.util.Date;
 import java.util.List;
 
 public class AdsDto {
@@ -28,11 +29,31 @@ public class AdsDto {
 
     private UserDto user;
 
+    private Date createAt;
+
+    private Date updateAt;
+
     private List<ImageAdsDto> imageAds;
 
     private Integer user_id;
 
     private boolean flActive;
+
+    public Date getCreateAt() {
+        return createAt;
+    }
+
+    public void setCreateAt(Date createAt) {
+        this.createAt = createAt;
+    }
+
+    public Date getUpdateAt() {
+        return updateAt;
+    }
+
+    public void setUpdateAt(Date updateAt) {
+        this.updateAt = updateAt;
+    }
 
     public boolean isFlActive() {
         return flActive;
@@ -53,6 +74,8 @@ public class AdsDto {
         this.year = ads.getYear();
         this.user_id = ads.getUserId();
         this.flActive = ads.isFlActive();
+        this.updateAt = ads.getUpdateAt();
+        this.createAt = ads.getCreateAt();
     }
 
     public Integer getUserId() {

@@ -39,15 +39,29 @@ public class ParseUrlQueryHelper {
         if (this.cons.equals("null")) {
             return cons;
         }
-        if (this.cons.indexOf(":") > 0) {
-            String[] splitCons = this.cons.split(":");
+        if (this.cons.indexOf(":") > 0 || this.cons.indexOf("@") > 0) {
+            String type_separator = this.cons.indexOf(":") > 0 ? "and" : "or";
+            String[] splitCons = null;
+            if (this.cons.indexOf(":") > 0) {
+                splitCons = this.cons.split(":");
+            } else {
+                splitCons = this.cons.split("@");
+            }
+
             int i = 0;
             for (String c : splitCons) {
                 String[] value = c.split(",");
                 //cons += cons + value[0] + value[1] + value [2];
                 cons += "";
                 if (i != splitCons.length - 1) {
-                    cons += this.normalizeWhere(value[0], value[1], value[2]) + " and ";
+                    //mds
+                    if (value[0].equals("fl_active")) {
+                        cons += this.normalizeWhere(value[0], value[1], value[2]) + " and ";
+                    } else if (value[0].equals("user_id")) {
+                        cons += this.normalizeWhere(value[0], value[1], value[2]) + " and ";
+                    } else {
+                        cons += this.normalizeWhere(value[0], value[1], value[2]) + " " + type_separator + " ";
+                    }
                 } else {
                     cons += this.normalizeWhere(value[0], value[1], value[2]);
                 }
@@ -91,7 +105,7 @@ public class ParseUrlQueryHelper {
         String order = "";
         if (this.order.equals("null")) {
             return order;
-        }else{
+        } else {
             String[] splitOrder = this.order.split(",");
             return "order by " + splitOrder[0] + " " + splitOrder[1];
         }

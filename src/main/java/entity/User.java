@@ -12,7 +12,7 @@ import java.security.NoSuchAlgorithmException;
                 "User.getLogin", query = "select u from user u where u.email=:email and u.password=:password"),
         @NamedQuery(name = "User.getAllUsers", query = "select u from user u"),
         @NamedQuery(name = "User.getUser", query = "select u from user u where u.id=:id"),
-        @NamedQuery(name = "User.checkUserNamedAvailable", query = "select u from user u where u.email=:email"),
+        @NamedQuery(name = "User.checkUserNamedAvailable", query = "select u from user u where u.email=:email or u.cpf=:cpf"),
         @NamedQuery(name = "User.getToken", query = "select u from user u where u.token=:token")
 
 })
@@ -80,6 +80,10 @@ public class User implements Serializable {
 
     public void setPassword(String password) throws NoSuchAlgorithmException {
         this.password = this.convertPasswordToMD5(password);
+    }
+
+    public void setPasswordToString(String password) {
+        this.password = password;
     }
 
     public String convertPasswordToMD5(String password) throws NoSuchAlgorithmException {

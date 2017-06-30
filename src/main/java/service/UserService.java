@@ -44,15 +44,21 @@ public class UserService{
     @Transactional
     public synchronized User update(User user) throws NoSuchAlgorithmException {
         Query query = entityManager.createNamedQuery("User.checkUserNamedAvailable");
-        query.setParameter("email",user.getEmail());
-        String password = user.getPassword();
-        user.setPassword(password);
+        query.setParameter("email",user.getEmail()).setParameter("cpf",user.getCpf());
+        if(user.getPassword()!=null){
+            String password = user.getPassword();
+            user.setPassword(password);
+        }
         List<User> users = query.getResultList();
         if(users.size() == 0) {
             return entityManager.merge(user);
         }
+
         for(User us: users) {
             if(us.getId() == user.getId()) {
+                if(user.getPassword()==null){
+                    user.setPasswordToString(us.getPassword());
+                }
                 return entityManager.merge(user);
             }
         }
@@ -62,7 +68,7 @@ public class UserService{
     @Transactional
     public synchronized User create(User user) throws NoSuchAlgorithmException {
         Query query = entityManager.createNamedQuery("User.checkUserNamedAvailable");
-        query.setParameter("email",user.getEmail());
+        query.setParameter("email",user.getEmail()).setParameter("cpf",user.getCpf());
         List<User> users = query.getResultList();
         if(users.size() == 0){
             String password = user.getPassword();
@@ -70,7 +76,7 @@ public class UserService{
             entityManager.persist(user);
             return user;
         }
-        throw new IllegalArgumentException("Esse email já está vinculado a uma conta favor usar outro");
+        throw new IllegalArgumentException("Esse email ou cpf já está vinculado a uma conta, favor usar outro");
     }
 
     @Transactional
