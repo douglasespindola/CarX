@@ -20,6 +20,7 @@ import com.google.gson.Gson;
 import dto.MessageDto;
 import dto.TokenDto;
 import entity.User;
+import helper.ValidaDadosHelper;
 import service.UserService;
 
 import javax.inject.Inject;
@@ -71,6 +72,11 @@ public class UserResource {
         try {
             Gson json = new Gson();
             User user = json.fromJson(jsonString, User.class);
+            if (ValidaDadosHelper.isCPF(user.getCpf().toString()) == false){
+                MessageDto message = new MessageDto();
+                message.setMessage("CPF invalido");
+                return Response.status(400).type(MediaType.APPLICATION_JSON).entity(message).build();
+            }
             return Response.status(200).type(MediaType.APPLICATION_JSON).entity(json.toJson(userService.create(user))).build();
         } catch (Exception e) {
             Gson json = new Gson();

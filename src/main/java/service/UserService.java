@@ -1,20 +1,19 @@
 package service;
 
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
-import javax.xml.bind.DatatypeConverter;
-
-
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Named;
-import javax.persistence.*;
-import javax.transaction.Transactional;
-
-
 import dto.TokenDto;
 import entity.User;
 import org.joda.time.DateTime;
+
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Named;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.transaction.Transactional;
+import javax.xml.bind.DatatypeConverter;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Named
 @RequestScoped

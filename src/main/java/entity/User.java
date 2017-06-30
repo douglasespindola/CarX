@@ -1,8 +1,11 @@
 package entity;
-import java.io.Serializable;
-import java.security.*;
+import helper.ValidaDadosHelper;
+
 import javax.persistence.*;
 import javax.xml.bind.DatatypeConverter;
+import java.io.Serializable;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 @Entity(name="user")
 @SuppressWarnings("serial")
@@ -16,7 +19,7 @@ import javax.xml.bind.DatatypeConverter;
 })
 public class User implements Serializable {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column
     private String name;
@@ -53,7 +56,9 @@ public class User implements Serializable {
     }
 
     public void setCpf(String cpf) {
-        this.cpf = Long.parseLong(cpf);
+        if (ValidaDadosHelper.isCPF(cpf) == true) {
+            this.cpf = Long.parseLong(cpf);
+        }
     }
 
     public String getEmail() {
@@ -87,12 +92,4 @@ public class User implements Serializable {
         return DatatypeConverter
                 .printHexBinary(digest).toLowerCase();
     }
-    //@XmlTransient
-//    public List<Ads> getAds() {
-//        return ads;
-//    }
-//
-//    public void setAds(List<Ads> ads) {
-//        this.ads = ads;
-//    }
 }
