@@ -73,7 +73,7 @@ public class UserResource extends ApplicationResource {
         try {
             Gson json = new Gson();
             User user = json.fromJson(jsonString, User.class);
-            if (ValidaDadosHelper.isCPF(user.getCpf().toString()) == false){
+            if (ValidaDadosHelper.isCPF(user.getCpf().toString()) == false) {
                 MessageDto message = new MessageDto();
                 message.setMessage("CPF invalido");
                 return Response.status(400).type(MediaType.APPLICATION_JSON).entity(message).build();
@@ -120,6 +120,7 @@ public class UserResource extends ApplicationResource {
             return Response.status(400).type(MediaType.APPLICATION_JSON).entity(message).build();
         }
     }
+
     @POST
     @Path("/admin/signOut")
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
@@ -138,7 +139,7 @@ public class UserResource extends ApplicationResource {
             Gson json = new Gson();
             User user = json.fromJson(jsonString, User.class);
             TokenDto token = userService.getToken(user);
-            if(token.getToken()==null) {
+            if (token.getToken() == null) {
                 return Response.status(400).type(MediaType.APPLICATION_JSON).entity(json.toJson(token)).build();
             }
             return Response.status(200).type(MediaType.APPLICATION_JSON).entity(json.toJson(token)).build();
@@ -157,7 +158,7 @@ public class UserResource extends ApplicationResource {
             Gson json = new Gson();
             TokenDto tokenL = userService.checkToken(token);
 
-            if(tokenL==null){
+            if (tokenL == null) {
                 MessageDto message = new MessageDto();
                 message.setMessage("Acesso não autorizado!");
                 return Response.status(401).type(MediaType.APPLICATION_JSON).entity(message).build();
@@ -170,6 +171,29 @@ public class UserResource extends ApplicationResource {
         }
     }
 
-
-
+    @GET
+    @Path("/admin/logout")
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    public Response logout(@HeaderParam("Authorization") String token) {
+        MessageDto message = new MessageDto();
+        try {
+            Gson json = new Gson();
+            TokenDto tokenDto = userService.checkToken(token);
+            if (tokenDto.getToken() != null) {
+                User user = new User();
+                user.setToken(null);
+                user.setId(tokenDto.getUserId());
+                userService.update(user);
+                message.setMessage("Até a proxima :D");
+                return Response.status(200).type(MediaType.APPLICATION_JSON).entity(message).build();
+            } else {
+                message.setMessage("Token invalido");
+                return Response.status(400).type(MediaType.APPLICATION_JSON).entity(message).build();
+            }
+        } catch (Exception e) {
+            message.setMessage(e.getMessage() + e.getClass());
+            return Response.status(400).type(MediaType.APPLICATION_JSON).entity(message).build();
+        }
+    }
 }
+

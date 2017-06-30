@@ -1,6 +1,4 @@
 package entity;
-import helper.ValidaDadosHelper;
-
 import javax.persistence.*;
 import javax.xml.bind.DatatypeConverter;
 import java.io.Serializable;
@@ -16,6 +14,7 @@ import java.security.NoSuchAlgorithmException;
         @NamedQuery(name = "User.getUser", query = "select u from user u where u.id=:id"),
         @NamedQuery(name = "User.checkUserNamedAvailable", query = "select u from user u where u.email=:email"),
         @NamedQuery(name = "User.getToken", query = "select u from user u where u.token=:token")
+
 })
 public class User implements Serializable {
     @Id
@@ -56,9 +55,7 @@ public class User implements Serializable {
     }
 
     public void setCpf(String cpf) {
-        if (ValidaDadosHelper.isCPF(cpf) == true) {
-            this.cpf = Long.parseLong(cpf);
-        }
+        this.cpf = Long.parseLong(cpf);
     }
 
     public String getEmail() {
