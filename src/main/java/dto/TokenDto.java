@@ -13,7 +13,7 @@ public class TokenDto {
 
     private String email;
 
-    private String cpf;
+    private Long cpf;
 
     public String getEmail() {
         return email;
@@ -23,12 +23,12 @@ public class TokenDto {
         this.email = email;
     }
 
-    public String getCpf() {
+    public Long getCpf() {
         return cpf;
     }
 
-    public void setCpf(Long cpf) {
-        this.cpf = cpf.toString();
+    public void setCpf(String cpf) {
+        this.cpf = Long.parseLong(cpf);
     }
 
     public Integer getUserId() {

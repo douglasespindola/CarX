@@ -29,7 +29,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Path("/user")
-public class UserResource {
+public class UserResource extends ApplicationResource {
 
     @Inject
     private UserService userService;
@@ -56,7 +56,8 @@ public class UserResource {
         try {
             Gson json = new Gson();
             User user = json.fromJson(jsonString, User.class);
-            return Response.status(200).type(MediaType.APPLICATION_JSON).entity(userService.update(user)).build();
+            String response = json.toJson(userService.update(user));
+            return Response.status(200).type(MediaType.APPLICATION_JSON).entity(response).build();
         } catch (Exception e) {
             Gson json = new Gson();
             MessageDto message = new MessageDto();
@@ -142,11 +143,33 @@ public class UserResource {
             }
             return Response.status(200).type(MediaType.APPLICATION_JSON).entity(json.toJson(token)).build();
         } catch (Exception e) {
-            Gson json = new Gson();
             MessageDto message = new MessageDto();
             message.setMessage(e.getMessage() + e.getClass());
             return Response.status(400).type(MediaType.APPLICATION_JSON).entity(message).build();
         }
     }
+
+    @GET
+    @Path("/admin/checkToken")
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    public Response checkToken(@HeaderParam("Authorization") String token) {
+        try {
+            Gson json = new Gson();
+            TokenDto tokenL = userService.checkToken(token);
+
+            if(tokenL==null){
+                MessageDto message = new MessageDto();
+                message.setMessage("Acesso não autorizado!");
+                return Response.status(401).type(MediaType.APPLICATION_JSON).entity(message).build();
+            }
+            return Response.status(400).type(MediaType.APPLICATION_JSON).entity(tokenL).build();
+        } catch (Exception e) {
+            MessageDto message = new MessageDto();
+            message.setMessage(e.getMessage() + e.getClass());
+            return Response.status(400).type(MediaType.APPLICATION_JSON).entity(message).build();
+        }
+    }
+
+
 
 }

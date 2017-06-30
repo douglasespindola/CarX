@@ -1,5 +1,9 @@
 package filter;
 
+import com.google.gson.Gson;
+import dto.MessageDto;
+import dto.TokenDto;
+import entity.User;
 import org.joda.time.DateTime;
 import service.UserService;
 
@@ -24,29 +28,45 @@ public class TokenFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
 
-
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
+
+        Gson json = new Gson();
+        MessageDto message = new MessageDto();
+
         try{
             String token = request.getHeader("Authorization");
             if (token.equals("") || token.equals(null)){
-                resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                resp.setHeader("Content-Type", "application/json;charset=utf-8");
+                resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                resp.getOutputStream().write(json.toJson(message).getBytes());
+                return;
             }else{
                 String tokenDecode = new String(DatatypeConverter.parseBase64Binary(token));
                 String[] list = tokenDecode.split(":");
                 Long time = Long.parseLong(list[1]);
 
                 if (new DateTime().getMillis() > time ){
-                    resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                    resp.setHeader("Content-Type", "application/json;charset=utf-8");
+                    resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                    resp.getOutputStream().write(json.toJson(message).getBytes());
                     return;
                 }
+                TokenDto getToken = userService.checkToken(token);
+                System.out.println(getToken);
                 if (userService.checkToken(token) == null) {
-                    resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                    message.setMessage("Não autorizado!");
+                    resp.setHeader("Content-Type", "application/json;charset=utf-8");
+                    resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                    resp.getOutputStream().write(json.toJson(message).getBytes());
                     return;
                 }
             }
             chain.doFilter(request, servletResponse);
         }catch (Exception e){
-            resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+            message.setMessage("Não autorizado!");
+            resp.setHeader("Content-Type", "application/json;charset=utf-8");
+            resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            resp.getOutputStream().write(json.toJson(message).getBytes());
             return;
         }
     }

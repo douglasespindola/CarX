@@ -95,7 +95,7 @@ public class UserService{
                 tokenDto.setToken(userLogged.getToken());
                 tokenDto.setName(userLogged.getName());
                 tokenDto.setEmail(userLogged.getEmail());
-                tokenDto.setCpf(userLogged.getCpf());
+                tokenDto.setCpf(userLogged.getCpf().toString());
                 tokenDto.setUserId(userLogged.getId());
                 return tokenDto;
             }
@@ -106,12 +106,21 @@ public class UserService{
             return tokenDto;
         }
     }
+
     @Transactional
-    public User checkToken(String token) {
+    public TokenDto checkToken(String token) {
         try {
             Query query = entityManager.createNamedQuery("User.getToken");
             query.setParameter("token", token);
-            return (User) query.getSingleResult();
+            User user = (User)query.getSingleResult();
+            if(user==null) return null;
+            TokenDto tokenDto = new TokenDto();
+            tokenDto.setEmail(user.getEmail());
+            tokenDto.setName(user.getName());
+            tokenDto.setCpf(user.getCpf().toString());
+            tokenDto.setToken(user.getToken());
+            tokenDto.setUserId(user.getId());
+            return tokenDto;
         } catch (Exception e) {
             return null;
         }

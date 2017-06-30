@@ -32,6 +32,16 @@ public class AdsDto {
 
     private Integer user_id;
 
+    private boolean flActive;
+
+    public boolean isFlActive() {
+        return flActive;
+    }
+
+    public void setFlActive(boolean flActive) {
+        this.flActive = flActive;
+    }
+
     public void setValues(Ads ads) {
         this.id = ads.getId();
         this.description = ads.getDescription();
@@ -42,6 +52,7 @@ public class AdsDto {
         this.branchName = ads.getBranchName();
         this.year = ads.getYear();
         this.user_id = ads.getUserId();
+        this.flActive = ads.isFlActive();
     }
 
     public Integer getUserId() {

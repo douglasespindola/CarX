@@ -41,6 +41,9 @@ public class Ads implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateAt;
 
+    @Column(name="fl_active", columnDefinition="int default 1")
+    private boolean flActive;
+
     //TODO: criar campos de created_at e updated_at, lembrar de reproduzir os campos no DTO
     @Transient
     private Integer user_id;
@@ -63,6 +66,14 @@ public class Ads implements Serializable {
     @Transient
     public void setUserId(Integer user_id) {
         this.user_id = user_id;
+    }
+
+    public boolean isFlActive() {
+        return flActive;
+    }
+
+    public void setFlActive(boolean flActive) {
+        this.flActive = flActive;
     }
 
     public void setValues(AdsDto ads) {
